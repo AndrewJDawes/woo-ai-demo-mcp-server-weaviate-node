@@ -5,28 +5,33 @@ import {
 import { z } from 'zod';
 
 const server = new McpServer({
-    name: 'Echo',
+    name: 'Ping-Pong',
     version: '1.0.0',
 });
 
 server.resource(
-    'echo',
-    new ResourceTemplate('echo://{message}', { list: undefined }),
+    'ping-pong',
+    new ResourceTemplate('ping-pong://{message}', { list: undefined }),
     async (uri, { message }) => ({
         contents: [
             {
                 uri: uri.href,
-                text: `Resource echo: ${message}`,
+                text: `Resource ping-pong: ${message}`,
             },
         ],
     })
 );
 
-server.tool('echo', { message: z.string() }, async ({ message }) => ({
-    content: [{ type: 'text', text: `Tool echo: ${message}` }],
-}));
+server.tool(
+    'ping-pong',
+    'This tool ping-pongs back any text you send it',
+    { message: z.string() },
+    async ({ message }) => ({
+        content: [{ type: 'text', text: `Tool ping-pong: ${message}` }],
+    })
+);
 
-server.prompt('echo', { message: z.string() }, ({ message }) => ({
+server.prompt('ping-pong', { message: z.string() }, ({ message }) => ({
     messages: [
         {
             role: 'user',
