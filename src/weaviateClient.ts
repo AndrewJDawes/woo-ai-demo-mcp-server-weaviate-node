@@ -4,21 +4,26 @@
 
 import weaviate, { WeaviateClient } from 'weaviate-client';
 
-// Get environment variables
-// Set these environment variables before you run the script. For more details,
-// the README file
-const weaviateCloudUrl = process.env.WCD_URL || 'http://weaviate:8080';
-const weaviateCloudApiKey = process.env.WCD_API_KEY || 'NEEDS A CLOUD API KEY';
-const openaiApiKey = process.env.OPENAI_API_KEY || 'NEEDS AN OPENAI API KEY';
-
+let client: WeaviateClient | undefined;
 // Create client object
-const client: WeaviateClient = await weaviate.connectToCustom({
-    httpHost: 'weaviate',
-    httpPort: 8080,
-    httpSecure: false,
-    grpcHost: 'weaviate',
-    grpcPort: 50051,
-    grpcSecure: false,
-});
-
-export { client };
+export async function getClient() {
+    if (client) {
+        return client;
+    }
+    return await weaviate.connectToCustom({
+        httpHost: process.env.WEAVIATE_HTTP_HOST ?? 'weaviate',
+        httpPort:
+            process.env.WEAVIATE_HTTP_PORT &&
+            !isNaN(parseInt(process.env.WEAVIATE_HTTP_PORT))
+                ? parseInt(process.env.WEAVIATE_HTTP_PORT)
+                : 8080,
+        httpSecure: Boolean(process.env.WEAVIATE_HTTP_HOST),
+        grpcHost: process.env.WEAVIATE_GRPC_HOST ?? 'weaviate',
+        grpcPort:
+            process.env.WEAVIATE_GRPC_PORT &&
+            !isNaN(parseInt(process.env.WEAVIATE_GRPC_PORT))
+                ? parseInt(process.env.WEAVIATE_GRPC_PORT)
+                : 50051,
+        grpcSecure: Boolean(process.env.WEAVIATE_GRPC_HOST),
+    });
+}

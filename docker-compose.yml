@@ -2,12 +2,17 @@ services:
   mcp_server_weaviate_node:
     image: mcr.microsoft.com/devcontainers/typescript-node:22
     environment:
-      - DB_HOSTNAME=db
-      - DB_NAME=db
-      - DB_USER=db
-      - DB_PASSWORD=db
+      # MCP Server configuration
+      - MCP_SERVER_NAME=${MCP_SERVER_NAME:-Woo AI Demo MCP Server Weaviate Node}
+      - MCP_SERVER_VERSION=${MCP_SERVER_VERSION:-1.0.0}
+      - COLLECTION_NAME_PRODUCTS=${COLLECTION_NAME_PRODUCTS:-Myindex}
+      # Weaviate connection configuration
+      - WEAVIATE_HTTP_HOST=${WEAVIATE_HTTP_HOST:-weaviate}
+      - WEAVIATE_HTTP_PORT=${WEAVIATE_HTTP_PORT:-8080}
+      - WEAVIATE_GRPC_HOST=${WEAVIATE_GRPC_HOST:-weaviate}
+      - WEAVIATE_GRPC_PORT=${WEAVIATE_GRPC_PORT:-50051}
     ports:
-      - 1043:80
+      - ${MCP_SERVER_WEAVIATE_NODE_HOST_PORT:-1043}:80
     command: sleep infinity
     volumes:
       - ./:/workspace

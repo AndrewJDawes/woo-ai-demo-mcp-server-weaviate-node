@@ -10,11 +10,9 @@ import {
 } from './weaviateMethods.js';
 
 const server = new McpServer({
-    name: 'Weaviate-MCP-Server',
-    version: '1.0.0',
+    name: process.env.MCP_SERVER_NAME ?? 'Woo AI Demo MCP Server Weaviate Node',
+    version: process.env.MCP_SERVER_VERSION ?? '1.0.0',
 });
-
-const collectionName = 'Myindex';
 
 // Expose listCollections as a resource
 server.resource(
@@ -39,10 +37,9 @@ server.resource(
     new ResourceTemplate('objects://{collection}', { list: undefined }),
     async (uri, params) => {
         // Ensure collection is a string
-        const collection =
-            typeof params.collection === 'string'
-                ? params.collection
-                : collectionName;
+        const collection = Array.isArray(params.collection)
+            ? params.collection[0]
+            : params.collection;
         const objects = await fetchObjects(collection);
         return {
             contents: [
@@ -57,13 +54,14 @@ server.resource(
 
 // Expose nearTextQuery as a tool
 server.tool(
-    'near-text-query',
-    'This tool performs a semantic search on a Weaviate collection using the provided query text',
+    'queryProducts',
+    "This tool performs a semantic search of a store's products using the provided query text",
     {
-        collectionName: z.string().optional().default(collectionName),
         queryText: z.string().min(1),
     },
-    async ({ collectionName, queryText }) => {
+    async ({ queryText }) => {
+        const collectionName =
+            process.env.COLLECTION_NAME_PRODUCTS ?? 'Myindex';
         try {
             const results = await nearTextQuery(collectionName, queryText);
             return {

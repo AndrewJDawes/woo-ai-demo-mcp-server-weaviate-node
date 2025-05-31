@@ -2,15 +2,18 @@
 // Use `quickstart-setup.ts` to create the example collection.
 // To run a query, edit this file, to uncomment the line that calls the query.
 
-import { client } from './weaviateClient.js';
+import { getClient } from './weaviateClient.js';
 
 async function listCollections() {
+    const client = await getClient();
     const collections = await client.collections.listAll();
     return collections;
 }
 
 // Run a fetch objects query
 async function fetchObjects(collectionName: string) {
+    const client = await getClient();
+
     const questionCollection = client.collections.get(collectionName);
 
     const response = await questionCollection.query.fetchObjects({
@@ -22,6 +25,7 @@ async function fetchObjects(collectionName: string) {
 
 // Run a near text query
 async function nearTextQuery(collectionName: string, queryText: string) {
+    const client = await getClient();
     const questions = client.collections.get(collectionName);
 
     const result = await questions.query.nearText(queryText, {
