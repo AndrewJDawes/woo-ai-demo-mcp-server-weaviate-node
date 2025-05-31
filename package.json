@@ -9,6 +9,7 @@
         "test:dev": "npm run build && npm run test",
         "serve": "node ./dist/index.js",
         "dev": "nodemon --watch './src/*' -e ts,js --exec 'npm run build; npm run serve'",
+        "inspect": "npx @modelcontextprotocol/inspector",
         "prod": "npm run migrate && npm run serve"
     },
     "devDependencies": {

@@ -4,11 +4,9 @@
 
 import { client } from './weaviateClient.js';
 
-const collectionName = 'Myindex';
-
 async function listCollections() {
     const collections = await client.collections.listAll();
-    console.log('Collections:');
+    return collections;
 }
 
 // Run a fetch objects query
@@ -85,3 +83,5 @@ async function nearTextQuery(collectionName: string, queryText: string) {
 //     console.log(result.generated);
 //     return result;
 // }
+
+export { listCollections, fetchObjects, nearTextQuery };

@@ -16,4 +16,4 @@ services:
 networks:
   woo-ai-demo-network:
     external: true
-    name: 'woo-ai-demo-network'
+    name: 'woo-ai-demo_woo-ai-demo-network'
