@@ -9,6 +9,8 @@ const server = new McpServer({
     version: '1.0.0',
 });
 
+const collectionName = 'Myindex';
+
 server.resource(
     'ping-pong',
     new ResourceTemplate('ping-pong://{message}', { list: undefined }),
