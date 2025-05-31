@@ -1,0 +1,45 @@
+{
+    "name": "mcp-server-weaviate-node",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc",
+        "test": "mocha",
+        "test:dev": "npm run build && npm run test",
+        "serve": "node ./dist/index.js",
+        "dev": "nodemon --watch './src/*' -e ts,js --exec 'npm run build; npm run serve'",
+        "prod": "npm run migrate && npm run serve"
+    },
+    "devDependencies": {
+        "@types/chai": "^5.0.1",
+        "@types/express": "^5.0.2",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "^20.17.19",
+        "@types/sinon": "^17.0.4",
+        "@types/sinon-chai": "^4.0.0",
+        "chai": "^5.2.0",
+        "mocha": "^11.1.0",
+        "nodemon": "^2.0.22",
+        "sinon": "^19.0.2",
+        "sinon-chai": "^4.0.0",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.7.3"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.12.1",
+        "express": "^5.1.0",
+        "zod": "^3.24.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/umerx-github/mcp-server-weaviate-node.git"
+    },
+    "author": "Andrew Dawes",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/umerx-github/mcp-server-weaviate-node/issues"
+    },
+    "homepage": "https://github.com/umerx-github/mcp-server-weaviate-node#readme",
+    "description": ""
+}

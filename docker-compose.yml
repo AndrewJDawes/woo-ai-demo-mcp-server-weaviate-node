@@ -1,0 +1,19 @@
+services:
+  mcp_server_weaviate_node:
+    image: mcr.microsoft.com/devcontainers/typescript-node:22
+    environment:
+      - DB_HOSTNAME=db
+      - DB_NAME=db
+      - DB_USER=db
+      - DB_PASSWORD=db
+    ports:
+      - 1043:80
+    command: sleep infinity
+    volumes:
+      - ./:/workspace
+    networks:
+      - woo-ai-demo-network
+networks:
+  woo-ai-demo-network:
+    external: true
+    name: 'woo-ai-demo-network'
