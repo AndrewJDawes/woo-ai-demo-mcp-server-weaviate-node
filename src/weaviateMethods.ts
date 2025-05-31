@@ -25,11 +25,34 @@ async function nearTextQuery(collectionName: string, queryText: string) {
     const questions = client.collections.get(collectionName);
 
     const result = await questions.query.nearText(queryText, {
-        limit: 1000,
+        filters: client.collections
+            .get(collectionName)
+            .filter.byProperty('wpsolr_type')
+            .equal('product'),
+        limit: 25,
+        returnProperties: [
+            'wpsolr_permalink',
+            'wpsolr_title',
+            'wpsolr_content',
+            'wpsolr__price_str',
+            'wpsolr__regular_price_str',
+            'wpsolr__sale_price_str',
+        ],
     });
 
     return result;
 }
+
+// // Run a near text query
+// async function nearTextQuery(collectionName: string, queryText: string) {
+//     const questions = client.collections.get(collectionName);
+
+//     const result = await questions.query.nearText(queryText, {
+//         limit: 1000,
+//     });
+
+//     return result;
+// }
 
 // // Add a boolean filter
 // async function nearTextWhereQuery() {
